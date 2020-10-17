@@ -23,17 +23,22 @@ app.get('/', (req, res) => {
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
+    
     const orderCollection = client.db("creative-agency").collection("customerOrders");
     const reviewsCollection = client.db("creative-agency").collection("reviews");
     const serviceCollection = client.db("creative-agency").collection("services");
     const adminEmailCollection = client.db("creative-agency").collection("adminEmail");
-    app.post('/addService', (req, res) => {
+
+
+
+    app.post('/addOrders', (req, res) => {
         
         const file = req.files.file;
         const name = req.body.name;
         const email = req.body.email;
         const projectName = req.body.projectName;
         const projectDetails = req.body.projectDetails;
+        const projectStatus = req.body.projectStatus;
         const price = req.body.price;
         const newImg = file.data;
         const encImg = newImg.toString('base64');
@@ -44,7 +49,7 @@ client.connect(err => {
             img: Buffer.from(encImg, 'base64')
         };
         console.log(req.body)
-        orderCollection.insertOne({ name, email, projectName, projectDetails, price, image })
+        orderCollection.insertOne({ name, email, projectName, projectDetails, price, image, projectStatus })
             .then(result => {
                 res.send(result.insertedCount > 0);
             })
