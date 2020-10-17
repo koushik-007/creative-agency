@@ -122,6 +122,12 @@ client.connect(err => {
             res.send(result.insertedCount > 0);
         })
     })
+    app.get('/homePageServiceList', (req, res)=>{
+        serviceCollection.find({})
+        .toArray((err, documents) => {
+            res.send(documents);
+        })
+    })
 
 });
 
